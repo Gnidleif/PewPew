@@ -22,10 +22,10 @@ public class MoveSystem extends LogicSystem {
                 pos.x += vel.x;
                 pos.y += vel.y;
                 
-                if(mEM.hasComponent(e, AccelerationComponent.class)){ // velocity sounds physicy, it should be used there instead
+                if(mEM.hasComponent(e, AccelerationComponent.class)){ // velocity sounds physicy, it should be used there instead, when there's a physics system
                     AccelerationComponent acc = mEM.getComponent(e, AccelerationComponent.class);
-                    vel.x += acc.xAcc;
-                    vel.y += acc.yAcc;
+                    vel.x *= acc.xAcc;
+                    vel.y *= acc.yAcc;
                 }
             }
         }

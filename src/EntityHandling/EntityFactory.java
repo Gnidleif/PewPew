@@ -2,6 +2,7 @@ package EntityHandling;
 
 import EntityHandling.Components.*;
 import java.awt.Color;
+import java.util.Random;
 import pewpew.AssetManager;
 import pewpew.Game;
 
@@ -19,14 +20,46 @@ public class EntityFactory {
         
     }
     
+    public Entity createStaticBall(){
+        Entity e = new Entity(
+                new RenderComponent(true, 1),
+                new ColorComponent(Color.blue),
+                new PositionComponent((int)Game.SCR_WIDTH / 2, (int)Game.SCR_HEIGHT / 2),
+                new CollisionComponent(),
+                new RadiusComponent(50.0));
+        
+        return e;
+    }
+    
     public Entity createBall(){
         Entity e = new Entity(
                 new RenderComponent(true, 1),
                 new ColorComponent(Color.red),
-                new PositionComponent(0.0, (int)Game.SCR_HEIGHT / 2),
-                new VelocityComponent(1.0, 0.0),
+                new PositionComponent(100.0, (int)Game.SCR_HEIGHT / 2),
+                new VelocityComponent(),
                 new CollisionComponent(),
-                new RadiusComponent(50.0));
+                new AccelerationComponent(),
+                new RadiusComponent(20.0), 
+                new ScreenCollisionComponent());
+        VelocityComponent vel = e.get(VelocityComponent.class);
+        double start = 5.0;
+        double end = 15.0;
+        
+        double random = new Random().nextDouble();
+        double result = start + (random * (end - start));
+        boolean dir = new Random().nextBoolean();
+        if(dir){
+            result = -result;
+        }
+        vel.x = result;
+        
+        random = new Random().nextDouble();
+        result = start + (random * (end - start));
+        dir = new Random().nextBoolean();
+        if(dir){
+            result = -result;
+        }
+        vel.y = result;
         
         e.get(RenderComponent.class).layer = 1;
         return e;

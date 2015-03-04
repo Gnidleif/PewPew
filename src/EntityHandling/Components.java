@@ -49,7 +49,7 @@ public class Components {
     }
     
     public static class AccelerationComponent extends Component{
-        public double xAcc = 0.0, yAcc = 0.0;
+        public double xAcc = 1.0, yAcc = 1.0;
         
         public AccelerationComponent(){}
         public AccelerationComponent(double xAcc, double yAcc){
