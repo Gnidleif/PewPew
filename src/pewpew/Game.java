@@ -63,7 +63,7 @@ public class Game extends JPanel implements Runnable {
         mCS.update();
     }
     
-    public void drawGame(double interpolation){
+    public void drawGame(){
         repaint();
     }
     
@@ -119,9 +119,7 @@ public class Game extends JPanel implements Runnable {
                     lastUpdateTime = now - TIME_BETWEEN_UPDATES;
                 }
                 
-                double interpolation = Math.min(1.0, ((now - lastUpdateTime) / TIME_BETWEEN_UPDATES));
-                lastRenderTime = now;
-                drawGame(interpolation);
+                drawGame();
                 
                 while(now - lastRenderTime < TARGET_TIME_BETWEEN_RENDERS && now - lastUpdateTime < TIME_BETWEEN_UPDATES){
                     Thread.yield();
