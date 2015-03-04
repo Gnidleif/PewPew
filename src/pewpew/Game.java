@@ -46,7 +46,6 @@ public class Game extends JPanel implements Runnable {
         StateMachine.getInstance().initialize();
         mRunning = true;
         mPaused = false;
-        
         mCamera = new Entity(new PositionComponent(0.0, 0.0), new VelocityComponent(0.0, 0.0));
     }
     
