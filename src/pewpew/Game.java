@@ -18,7 +18,6 @@ public class Game extends JPanel implements Runnable {
             SCR_HEIGHT  = 600;
     
     private boolean mRunning;
-    private boolean mPaused;
     private Thread mThread;
 
     public static Graphics gGraphics;
@@ -39,7 +38,6 @@ public class Game extends JPanel implements Runnable {
         StateMachine.getInstance().initialize();
         SystemManager.getInstance().initialize();
         mRunning = true;
-        mPaused = false;
         
         mCamera = new Entity(new PositionComponent(0.0, 0.0), new VelocityComponent(0.0, 0.0));
     }
@@ -51,10 +49,6 @@ public class Game extends JPanel implements Runnable {
             mThread = new Thread(this);
             mThread.start();
         }
-    }
-    
-    public void update(){
-        
     }
     
     public void update(double dt){
@@ -80,29 +74,6 @@ public class Game extends JPanel implements Runnable {
 
     @Override
     public void run() {
-        final int ONE_BILLION = 1000000000;
-        final double GAME_HERTZ = 30.0;
-        final double TIME_BETWEEN_UPDATES = ONE_BILLION / GAME_HERTZ;
-        final int MAX_UPDATES_BEFORE_RENDER = 5;
-        double lastUpdateTime = System.nanoTime();
-        double lastRenderTime = System.nanoTime();
-        
-        final double TARGET_FPS = 60;
-        final double TARGET_TIME_BETWEEN_RENDERS = ONE_BILLION / TARGET_FPS;
-        
-        int lastSecondTime = (int)(lastUpdateTime / ONE_BILLION);
-        
-        while(mRunning){
-            double now = System.nanoTime();
-            int updateCount = 0;
-            
-            if(!mPaused){
-                while(now - lastUpdateTime > TIME_BETWEEN_UPDATES && updateCount < MAX_UPDATES_BEFORE_RENDER){
-                    
-                }
-            }
-        }
-        
         try{
             this.initialize();
         }
@@ -110,7 +81,6 @@ public class Game extends JPanel implements Runnable {
             ioe.printStackTrace(System.out);
         }
         
-        // old loop
         long lastLoopTime =  System.nanoTime();
         int target_fps = 60;
         int fps = 0;
