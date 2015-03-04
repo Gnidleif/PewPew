@@ -5,6 +5,7 @@ import EntityHandling.Components.PositionComponent;
 import EntityHandling.Components.RadiusComponent;
 import EntityHandling.Components.ScreenCollisionComponent;
 import EntityHandling.Components.VelocityComponent;
+import EntityHandling.EntityManager;
 import java.util.Set;
 import java.util.UUID;
 
@@ -16,8 +17,7 @@ public class CollisionSystem extends LogicSystem {
         return Math.sqrt(xDist*xDist + yDist*yDist);
     }
     
-    @Override
-    public void update(double dt) {
+    public void update() {
         Set<UUID> entities = mEM.getAllEntitiesOwningType(CollisionComponent.class);
         for(UUID e1 : entities){
             if(!mEM.getComponent(e1, CollisionComponent.class).collidable){

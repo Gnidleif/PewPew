@@ -4,7 +4,9 @@ import EntityHandling.Components.PositionComponent;
 import EntityHandling.Components.VelocityComponent;
 import EntityHandling.Entity;
 import GameStates.StateMachine;
-import Systems.SystemManager;
+import Systems.CollisionSystem;
+import Systems.MoveSystem;
+import Systems.RenderSystem;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -18,12 +20,18 @@ public class Game extends JPanel implements Runnable {
             SCR_HEIGHT  = 600;
     
     private boolean mRunning;
+    private boolean mPaused;
     private Thread mThread;
 
-    public static Graphics gGraphics;
+    private Graphics mGraphics;
     private BufferedImage mImage;
     
     private Entity mCamera;
+    
+    // SubSystems
+    private final CollisionSystem mCS = new CollisionSystem();
+    private final MoveSystem mMS = new MoveSystem();
+    private final RenderSystem mRS = new RenderSystem();
     
     public Game() throws IOException {
         super();
@@ -34,11 +42,10 @@ public class Game extends JPanel implements Runnable {
     
     public void initialize() throws IOException{
         mImage = new BufferedImage(SCR_WIDTH, SCR_HEIGHT, BufferedImage.TYPE_INT_RGB);
-        gGraphics = (Graphics2D) mImage.getGraphics();
+        mGraphics = (Graphics2D) mImage.getGraphics();
         StateMachine.getInstance().initialize();
-        SystemManager.getInstance().initialize();
         mRunning = true;
-        
+        mPaused = false;
         mCamera = new Entity(new PositionComponent(0.0, 0.0), new VelocityComponent(0.0, 0.0));
     }
     
@@ -51,13 +58,19 @@ public class Game extends JPanel implements Runnable {
         }
     }
     
-    public void update(double dt){
-        SystemManager.getInstance().update(dt);
-        StateMachine.getInstance().update(dt);
+    public void update(){
+        mMS.update();
+        mCS.update();
     }
     
-    public void draw(){
-        StateMachine.getInstance().render(gGraphics);
+    public void drawGame(double interpolation){
+        repaint();
+    }
+    
+    @Override
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        mRS.draw(g);
     }
     
     public void drawToScreen(){
@@ -81,38 +94,45 @@ public class Game extends JPanel implements Runnable {
             ioe.printStackTrace(System.out);
         }
         
-        long lastLoopTime =  System.nanoTime();
-        int target_fps = 60;
-        int fps = 0;
-        long optimal_time = 1000000000 / target_fps;
-        long lastFpsTime = 0;
-        long timeSinceStart = 1;
+        final int ONE_BILLION = 1000000000;
+        final double GAME_HERTZ = 30.0;
+        final double TIME_BETWEEN_UPDATES = ONE_BILLION / GAME_HERTZ;
+        final int MAX_UPDATES_BEFORE_RENDER = 5;
+        double lastUpdateTime = System.nanoTime();
+        double lastRenderTime = System.nanoTime();
+        
+        final double TARGET_FPS = 60;
+        final double TARGET_TIME_BETWEEN_RENDERS = ONE_BILLION / TARGET_FPS;
         
         while(mRunning){
-            long now = System.nanoTime();
-            long updateLength = now - lastLoopTime;
-            lastLoopTime = now;
-            double dt = updateLength / ((double)optimal_time);
+            double now = System.nanoTime();
+            int updateCount = 0;
             
-            lastFpsTime += updateLength;
-            fps++;
-            
-            if(lastFpsTime >= 1000000000){
-                System.out.println("FPS: " + fps);
-                System.out.println("Seconds running: " + timeSinceStart++);
-                lastFpsTime = 0;
-                fps = 0;
-            }
-            
-            this.update(dt);
-            this.draw();
-            this.drawToScreen();
-            
-            try{
-                Thread.sleep(Math.abs((lastLoopTime - System.nanoTime() + optimal_time) / 1000000));
-            }
-            catch(Exception e){
+            if(!mPaused){
+                while(now - lastUpdateTime > TIME_BETWEEN_UPDATES && updateCount < MAX_UPDATES_BEFORE_RENDER){
+                    update();
+                    lastUpdateTime += TIME_BETWEEN_UPDATES;
+                    updateCount++;
+                }
                 
+                if(now - lastUpdateTime > TIME_BETWEEN_UPDATES){
+                    lastUpdateTime = now - TIME_BETWEEN_UPDATES;
+                }
+                
+                double interpolation = Math.min(1.0, ((now - lastUpdateTime) / TIME_BETWEEN_UPDATES));
+                lastRenderTime = now;
+                drawGame(interpolation);
+                
+                while(now - lastRenderTime < TARGET_TIME_BETWEEN_RENDERS && now - lastUpdateTime < TIME_BETWEEN_UPDATES){
+                    Thread.yield();
+                    try{
+                        Thread.sleep(1);
+                    }
+                    catch(Exception e){
+                        e.printStackTrace(System.out);
+                    }
+                    now = System.nanoTime();
+                }
             }
         }
     }

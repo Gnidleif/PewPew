@@ -13,7 +13,7 @@ import java.util.Set;
 import java.util.UUID;
 import pewpew.Game;
 
-public class Render2DSystem extends LogicSystem {
+public class RenderSystem extends LogicSystem {
     
     private ArrayList<UUID> getSorted(Set<UUID> entities){
         HashMap<Integer, ArrayList<UUID>> layerMap = new HashMap<>();
@@ -36,9 +36,7 @@ public class Render2DSystem extends LogicSystem {
         return sorted;
     }
 
-    @Override
-    public void update(double dt) {
-        Graphics g = Game.gGraphics;
+    public void draw(Graphics g) {
         ArrayList<UUID> entities = getSorted(mEM.getAllEntitiesOwningType(RenderComponent.class));
         for(UUID e : entities){
             RenderComponent render = mEM.getComponent(e, RenderComponent.class);

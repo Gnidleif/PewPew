@@ -37,7 +37,7 @@ public class EntityFactory {
                 new RenderComponent(), 
                 new PositionComponent((int)Game.SCR_WIDTH/2, (int)Game.SCR_HEIGHT/2), 
                 new ImageComponent(AssetManager.getInstance().getBufferedImage(path)),
-                new DimensionComponent((int)Game.SCR_WIDTH, (int)Game.SCR_HEIGHT, 10.0));
+                new DimensionComponent((int)Game.SCR_WIDTH, (int)Game.SCR_HEIGHT, 1.0));
         
         return e;
     }
