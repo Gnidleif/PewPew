@@ -6,12 +6,12 @@ import EntityHandling.Components.ImageComponent;
 import EntityHandling.Components.PositionComponent;
 import EntityHandling.Components.RadiusComponent;
 import EntityHandling.Components.RenderComponent;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.UUID;
-import pewpew.Game;
 
 public class RenderSystem extends LogicSystem {
     
@@ -50,12 +50,13 @@ public class RenderSystem extends LogicSystem {
                     ColorComponent color = mEM.getComponent(e, ColorComponent.class);
                     RadiusComponent rad = mEM.getComponent(e, RadiusComponent.class);
                     
+                    int diameter = (int)(rad.radius * 2);
                     g.setColor(color.color);
                     g.fillOval(
                             (int)(pos.x - rad.radius), 
-                            (int)(pos.y - rad.radius), 
-                            (int)rad.radius, 
-                            (int)rad.radius);
+                            (int)(pos.y - rad.radius),
+                            diameter,
+                            diameter);
                 }
                 
                 DimensionComponent dim = new DimensionComponent();

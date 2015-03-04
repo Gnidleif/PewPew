@@ -23,8 +23,8 @@ public class StartState extends BaseState {
         //double yOffset = 0.0;
         for(int i = 0; i < 10; ++i){
             mBalls.add(EntityFactory.getInstance().createBall());
-            xOffset = i * mBalls.getLast().get(RadiusComponent.class).radius;
-            mBalls.getLast().get(PositionComponent.class).x = xOffset;
+            xOffset = i * mBalls.getLast().get(RadiusComponent.class).radius * 2;
+            mBalls.getLast().get(PositionComponent.class).x += xOffset;
         }
     }
     

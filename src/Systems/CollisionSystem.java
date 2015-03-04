@@ -8,12 +8,13 @@ import EntityHandling.Components.VelocityComponent;
 import EntityHandling.EntityManager;
 import java.util.Set;
 import java.util.UUID;
+import pewpew.Game;
 
 public class CollisionSystem extends LogicSystem {
     
     private double calcLength(PositionComponent p1, PositionComponent p2){
-        double xDist = p1.x - p2.x;
-        double yDist = p1.y - p2.y;
+        double xDist = p2.x - p1.x;
+        double yDist = p2.y - p1.y;
         return Math.sqrt(xDist*xDist + yDist*yDist);
     }
     
@@ -35,10 +36,12 @@ public class CollisionSystem extends LogicSystem {
                     if(mEM.hasComponent(e2, PositionComponent.class)){
                         PositionComponent pos2 = mEM.getComponent(e2, PositionComponent.class);
                         
-                        double length = calcLength(pos1, pos2);
-                        if(length < rad.radius){
-                            vel.x *= -1.0;
-                            vel.y *= -1.0;
+                        if(calcLength(pos1, pos2) < rad.radius*2){
+                            if(mEM.hasComponent(e2, VelocityComponent.class)){
+                                // Code handling two moving objects colliding
+                            }
+                            vel.x = -vel.x;
+                            vel.y = -vel.y;
                             break;
                         }
                     }
@@ -46,7 +49,13 @@ public class CollisionSystem extends LogicSystem {
                 
                 if(mEM.hasComponent(e1, ScreenCollisionComponent.class)){
                     if(mEM.getComponent(e1, ScreenCollisionComponent.class).collidable){
-                        
+                        PositionComponent sPos = new PositionComponent((double)Game.SCR_WIDTH, (double)Game.SCR_HEIGHT);
+                        if(calcLength(pos1, new PositionComponent(0.0, pos1.y)) < rad.radius || calcLength(pos1, new PositionComponent(sPos.x, pos1.y)) < rad.radius){
+                            vel.x *= -1.0;
+                        }
+                        if(calcLength(pos1, new PositionComponent(pos1.x, 0.0)) < rad.radius || calcLength(pos1, new PositionComponent(pos1.x, sPos.y)) < rad.radius){
+                            vel.y *= -1.0;
+                        }
                     }
                 }
             }
