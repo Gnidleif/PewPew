@@ -3,7 +3,7 @@ Hello and welcome to the awesome world of this game!
 I've not decided what this game's going to become yet, which is why I'm mostly focusing on the engine
 using cool techniques I've not used before.
 So far I have:
-* Entity Component System
+* Entity Component System #
   This is really cool. I have a feeling the components and their systems will be a constant work in progress however.
   Might implement some cool .xml stuff later instead of the quite ugly EntityFactory that I have now.
 * Basic collisions
