@@ -5,7 +5,6 @@ import EntityHandling.Components.PositionComponent;
 import EntityHandling.Components.RadiusComponent;
 import EntityHandling.Components.ScreenCollisionComponent;
 import EntityHandling.Components.VelocityComponent;
-import EntityHandling.EntityManager;
 import java.util.Set;
 import java.util.UUID;
 import pewpew.Game;

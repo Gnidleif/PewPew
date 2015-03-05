@@ -52,8 +52,8 @@ public class StateMachine {
         mCurrentState.onEnter();
     }
     
-    public void update(double dt){
-        mCurrentState.update(dt);
+    public void update(){
+        mCurrentState.update();
     }
     
     public void render(Graphics g){
