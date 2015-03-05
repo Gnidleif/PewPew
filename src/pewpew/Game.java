@@ -1,12 +1,15 @@
 package pewpew;
 
 import EntityHandling.Components.PositionComponent;
+import EntityHandling.Components.TextComponent;
 import EntityHandling.Components.VelocityComponent;
 import EntityHandling.Entity;
+import EntityHandling.EntityFactory;
 import GameStates.StateMachine;
 import Systems.CollisionSystem;
 import Systems.MoveSystem;
 import Systems.RenderSystem;
+import Systems.TextSystem;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -26,12 +29,16 @@ public class Game extends JPanel implements Runnable {
     private Graphics mGraphics;
     private BufferedImage mImage;
     
-    private Entity mCamera;
+    private int mFPS = 60;
+    private int mFrameCount = 0;
+    
+    private Entity mFPSText = null;
     
     // SubSystems
     private final CollisionSystem mCS = new CollisionSystem();
     private final MoveSystem mMS = new MoveSystem();
     private final RenderSystem mRS = new RenderSystem();
+    private final TextSystem mTS = new TextSystem();
     
     public Game() throws IOException {
         super();
@@ -46,7 +53,7 @@ public class Game extends JPanel implements Runnable {
         StateMachine.getInstance().initialize();
         mRunning = true;
         mPaused = false;
-        mCamera = new Entity(new PositionComponent(0.0, 0.0), new VelocityComponent(0.0, 0.0));
+        mFPSText = EntityFactory.getInstance().createText();
     }
     
     @Override
@@ -59,8 +66,11 @@ public class Game extends JPanel implements Runnable {
     }
     
     public void update(){
-        mMS.update();
-        mCS.update();
+        StateMachine.getInstance().update();
+        if(mMS.isRunning())
+            mMS.update();
+        if(mCS.isRunning())
+            mCS.update();
     }
     
     public void drawGame(){
@@ -70,19 +80,12 @@ public class Game extends JPanel implements Runnable {
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        mRS.draw(g);
-    }
-    
-    public void drawToScreen(){
-        Graphics g = getGraphics();
-        g.drawImage(
-                mImage, 
-                (int)mCamera.get(PositionComponent.class).x, 
-                (int)mCamera.get(PositionComponent.class).y,
-                SCR_WIDTH + (int)mCamera.get(PositionComponent.class).x,
-                SCR_HEIGHT + (int)mCamera.get(PositionComponent.class).y,
-                null);
-        g.dispose();
+        if(mRS.isRunning())
+            mRS.draw(g);
+        if(mTS.isRunning) // TextSystem has to be drawn after the RenderSystem, or shit dies
+            mTS.drawText(g);
+        mFrameCount++;
+        //g.dispose();
     }
 
     @Override
@@ -104,6 +107,8 @@ public class Game extends JPanel implements Runnable {
         final double TARGET_FPS = 60;
         final double TARGET_TIME_BETWEEN_RENDERS = ONE_BILLION / TARGET_FPS;
         
+        int lastSecondTime = (int)(lastUpdateTime / ONE_BILLION);
+        
         while(mRunning){
             double now = System.nanoTime();
             int updateCount = 0;
@@ -119,7 +124,19 @@ public class Game extends JPanel implements Runnable {
                     lastUpdateTime = now - TIME_BETWEEN_UPDATES;
                 }
                 
-                drawGame();
+                if(mFrameCount < TARGET_FPS){
+                    drawGame();
+                }
+                lastRenderTime = now;
+                
+                int thisSecond = (int)(lastUpdateTime / ONE_BILLION);
+                if(thisSecond > lastSecondTime){
+                    mFPS = mFrameCount;
+                    String text = "FPS: " + mFPS;
+                    mFPSText.get(TextComponent.class).text = text;
+                    mFrameCount = 0;
+                    lastSecondTime = thisSecond;
+                }
                 
                 while(now - lastRenderTime < TARGET_TIME_BETWEEN_RENDERS && now - lastUpdateTime < TIME_BETWEEN_UPDATES){
                     Thread.yield();

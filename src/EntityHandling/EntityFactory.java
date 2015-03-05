@@ -2,6 +2,7 @@ package EntityHandling;
 
 import EntityHandling.Components.*;
 import java.awt.Color;
+import java.awt.Font;
 import java.util.Random;
 import pewpew.AssetManager;
 import pewpew.Game;
@@ -60,7 +61,6 @@ public class EntityFactory {
             result = -result;
         }
         vel.y = result;
-        
         e.get(RenderComponent.class).layer = 1;
         return e;
     }
@@ -71,6 +71,16 @@ public class EntityFactory {
                 new PositionComponent((int)Game.SCR_WIDTH/2, (int)Game.SCR_HEIGHT/2), 
                 new ImageComponent(AssetManager.getInstance().getBufferedImage(path)),
                 new DimensionComponent((int)Game.SCR_WIDTH, (int)Game.SCR_HEIGHT, 1.0));
+        
+        return e;
+    }
+    
+    public Entity createText(){
+        Entity e = new Entity(new TextComponent());
+        e.get(TextComponent.class).color = Color.blue;
+        e.get(TextComponent.class).x = 10;
+        e.get(TextComponent.class).y = 10;
+        e.get(TextComponent.class).font = new Font("Comic Sans MS", Font.BOLD, 30);
         
         return e;
     }
