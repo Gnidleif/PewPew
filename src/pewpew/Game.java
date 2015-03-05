@@ -124,7 +124,7 @@ public class Game extends JPanel implements Runnable {
                     lastUpdateTime = now - TIME_BETWEEN_UPDATES;
                 }
                 
-                if(mFrameCount < TARGET_FPS){
+                if(mFrameCount <= TARGET_FPS){
                     drawGame();
                 }
                 lastRenderTime = now;
