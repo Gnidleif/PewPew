@@ -6,15 +6,18 @@
             <file>file:/C:/Users/Gnidleif/Documents/NetBeansProjects/PewPew/PewPew/src/GameStates/BaseState.java</file>
             <file>file:/C:/Users/Gnidleif/Documents/NetBeansProjects/PewPew/PewPew/src/pewpew/Game.java</file>
             <file>file:/C:/Users/Gnidleif/Documents/NetBeansProjects/PewPew/PewPew/src/Systems/MoveSystem.java</file>
-            <file>file:/C:/Users/Gnidleif/Documents/NetBeansProjects/PewPew/PewPew/src/Systems/CollisionSystem.java</file>
             <file>file:/C:/Users/Gnidleif/Documents/NetBeansProjects/PewPew/PewPew/src/Systems/LogicSystem.java</file>
-            <file>file:/C:/Users/Gnidleif/Documents/NetBeansProjects/PewPew/PewPew/src/pewpew/PewPew.java</file>
             <file>file:/C:/Users/Gnidleif/Documents/NetBeansProjects/PewPew/PewPew/src/GameStates/StateMachine.java</file>
             <file>file:/C:/Users/Gnidleif/Documents/NetBeansProjects/PewPew/PewPew/src/EntityHandling/EntityFactory.java</file>
-            <file>file:/C:/Users/Gnidleif/Documents/NetBeansProjects/PewPew/PewPew/src/GameStates/StartState.java</file>
-            <file>file:/C:/Users/Gnidleif/Documents/NetBeansProjects/PewPew/PewPew/resources/backgrounds/skyBG.png</file>
-            <file>file:/C:/Users/Gnidleif/Documents/NetBeansProjects/PewPew/PewPew/src/Systems/RenderSystem.java</file>
+            <file>file:/C:/Users/Gnidleif/Documents/NetBeansProjects/PewPew/PewPew/src/pewpew/AssetManager.java</file>
+            <file>file:/C:/Users/Gnidleif/Documents/NetBeansProjects/PewPew/PewPew/src/EntityHandling/Entity.java</file>
             <file>file:/C:/Users/Gnidleif/Documents/NetBeansProjects/PewPew/PewPew/src/EntityHandling/Components.java</file>
+            <file>file:/C:/Users/Gnidleif/Documents/NetBeansProjects/PewPew/PewPew/src/EntityHandling/EntityManager.java</file>
+            <file>file:/C:/Users/Gnidleif/Documents/NetBeansProjects/PewPew/PewPew/src/Systems/CollisionSystem.java</file>
+            <file>file:/C:/Users/Gnidleif/Documents/NetBeansProjects/PewPew/PewPew/src/pewpew/PewPew.java</file>
+            <file>file:/C:/Users/Gnidleif/Documents/NetBeansProjects/PewPew/PewPew/src/GameStates/StartState.java</file>
+            <file>file:/C:/Users/Gnidleif/Documents/NetBeansProjects/PewPew/PewPew/src/Systems/RenderSystem.java</file>
+            <file>file:/C:/Users/Gnidleif/Documents/NetBeansProjects/PewPew/PewPew/src/Systems/TextSystem.java</file>
         </group>
     </open-files>
 </project-private>
