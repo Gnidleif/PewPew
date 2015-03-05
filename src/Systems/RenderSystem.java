@@ -6,7 +6,6 @@ import EntityHandling.Components.ImageComponent;
 import EntityHandling.Components.PositionComponent;
 import EntityHandling.Components.RadiusComponent;
 import EntityHandling.Components.RenderComponent;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;

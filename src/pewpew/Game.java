@@ -1,8 +1,6 @@
 package pewpew;
 
-import EntityHandling.Components.PositionComponent;
 import EntityHandling.Components.TextComponent;
-import EntityHandling.Components.VelocityComponent;
 import EntityHandling.Entity;
 import EntityHandling.EntityFactory;
 import GameStates.StateMachine;

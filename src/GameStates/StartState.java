@@ -57,6 +57,8 @@ public class StartState extends BaseState {
 
     @Override
     public void onExit() {
+        mText.kill();
+        mBackground.kill();
         for(Entity e : mBalls){
             e.kill();
         }
