@@ -82,7 +82,7 @@ public class Game extends JPanel implements Runnable {
         super.paintComponent(g);
         if(mRS.isRunning())
             mRS.draw(g);
-        if(mTS.isRunning) // TextSystem has to be drawn after the RenderSystem, or shit dies
+        if(mTS.isRunning()) // TextSystem has to be drawn after the RenderSystem, or shit dies
             mTS.drawText(g);
         mFrameCount++;
         //g.dispose();
