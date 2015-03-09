@@ -71,10 +71,15 @@ public class Components {
     
     public static class CollisionComponent extends Component{
         public boolean collidable = true;
+        public double minX = 0.0, minY = 0.0, maxX = 0.0, maxY = 0.0;
         
         public CollisionComponent(){}
-        public CollisionComponent(boolean collidable){
+        public CollisionComponent(boolean collidable, double minX, double minY, double maxX, double maxY){
             this.collidable = collidable;
+            this.minX = minX;
+            this.minY = minY;
+            this.maxX = maxX;
+            this.maxY = maxY;
         }
     }
     
