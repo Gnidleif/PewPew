@@ -1,6 +1,7 @@
 package EntityHandling;
 
 import java.awt.Color;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import pewpew.AssetManager;
 
@@ -15,15 +16,6 @@ public class Components {
         public PositionComponent(double x, double y){
             this.x = x;
             this.y = y;
-        }
-    }
-    
-    public static class RadiusComponent extends Component{
-        public double radius = 0.0;
-        
-        public RadiusComponent(){}
-        public RadiusComponent(double radius){
-            this.radius = radius;
         }
     }
     
@@ -71,10 +63,12 @@ public class Components {
     
     public static class CollisionComponent extends Component{
         public boolean collidable = true;
+        public Rectangle2D.Double square = new Rectangle2D.Double();
         
         public CollisionComponent(){}
-        public CollisionComponent(boolean collidable){
+        public CollisionComponent(boolean collidable, Rectangle2D.Double square){
             this.collidable = collidable;
+            this.square = square;
         }
     }
     

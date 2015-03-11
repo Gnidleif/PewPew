@@ -1,10 +1,10 @@
 package Systems;
 
+import EntityHandling.Components.CollisionComponent;
 import EntityHandling.Components.ColorComponent;
 import EntityHandling.Components.DimensionComponent;
 import EntityHandling.Components.ImageComponent;
 import EntityHandling.Components.PositionComponent;
-import EntityHandling.Components.RadiusComponent;
 import EntityHandling.Components.RenderComponent;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -43,21 +43,27 @@ public class RenderSystem extends LogicSystem {
             if(!render.visible){
                 continue;
             }
+            
+            if(mEM.hasComponent(e, ColorComponent.class)){
+                ColorComponent color = mEM.getComponent(e, ColorComponent.class);
+                g.setColor(mEM.getComponent(e, ColorComponent.class).color);
+            }
+            else{
+                g.setColor(Color.red);
+            }
+
+            if(mEM.hasComponent(e, CollisionComponent.class)){
+                CollisionComponent coll = mEM.getComponent(e, CollisionComponent.class);
+
+                g.drawRect(
+                        (int) coll.square.x, 
+                        (int) coll.square.y, 
+                        (int) coll.square.width, 
+                        (int) coll.square.height);
+            }
+            
             if(mEM.hasComponent(e, PositionComponent.class)){
                 PositionComponent pos = mEM.getComponent(e, PositionComponent.class);
-
-                if(mEM.hasComponent(e, ColorComponent.class) && mEM.hasComponent(e, RadiusComponent.class)){ // YOU CAN ONLY DRAW COLORED CIRCLES OKAY!?
-                    ColorComponent color = mEM.getComponent(e, ColorComponent.class);
-                    RadiusComponent rad = mEM.getComponent(e, RadiusComponent.class);
-                    
-                    int diameter = (int)(rad.radius * 2);
-                    g.setColor(color.color);
-                    g.fillOval(
-                            (int)(pos.x - rad.radius), 
-                            (int)(pos.y - rad.radius),
-                            diameter,
-                            diameter);
-                }
                 
                 DimensionComponent dim = new DimensionComponent();
                 if(mEM.hasComponent(e, DimensionComponent.class)){

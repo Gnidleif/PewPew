@@ -1,6 +1,8 @@
 package pewpew;
 
+import EntityHandling.Components.CollisionComponent;
 import EntityHandling.Components.PositionComponent;
+import EntityHandling.Components.RenderComponent;
 import EntityHandling.Components.VelocityComponent;
 import EntityHandling.Entity;
 import GameStates.StateMachine;
@@ -10,6 +12,7 @@ import Systems.RenderSystem;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.swing.JPanel;
@@ -26,6 +29,7 @@ public class Game extends JPanel implements Runnable {
     private Graphics mGraphics;
     private BufferedImage mImage;
     
+    private Entity mScreenBounds;
     private Entity mCamera;
     
     // SubSystems
@@ -47,6 +51,8 @@ public class Game extends JPanel implements Runnable {
         mRunning = true;
         mPaused = false;
         mCamera = new Entity(new PositionComponent(0.0, 0.0), new VelocityComponent(0.0, 0.0));
+        mScreenBounds = new Entity(new CollisionComponent(true, new Rectangle2D.Double(0, 0, SCR_WIDTH, SCR_HEIGHT)));
+        mCS.createScreenBounds((double)SCR_WIDTH, (double)SCR_HEIGHT, 4);
     }
     
     @Override

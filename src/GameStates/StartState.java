@@ -1,7 +1,6 @@
 package GameStates;
 
 import EntityHandling.Components.PositionComponent;
-import EntityHandling.Components.RadiusComponent;
 import EntityHandling.Entity;
 import EntityHandling.EntityFactory;
 import java.awt.Graphics;
@@ -21,10 +20,8 @@ public class StartState extends BaseState {
         mBackground = EntityFactory.getInstance().createBackground("/backgrounds/skyBG.png");
         double xOffset = 0.0;
         //double yOffset = 0.0;
-        for(int i = 0; i < 10; ++i){
-            mBalls.add(EntityFactory.getInstance().createBall());
-            xOffset = i * mBalls.getLast().get(RadiusComponent.class).radius * 2;
-            mBalls.getLast().get(PositionComponent.class).x += xOffset;
+        for(int i = 0; i < 1; ++i){
+            mBalls.add(EntityFactory.getInstance().createStaticBall());
         }
     }
     
