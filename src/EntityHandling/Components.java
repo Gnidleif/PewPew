@@ -70,12 +70,12 @@ public class Components {
     // Note: The collision rectangle shouldn't be used as a substitute for the Position- and Dimension Components
     public static class CollisionComponent extends Component{
         public boolean collidable = true;
-        public Rectangle2D.Double square = new Rectangle2D.Double();
+        public Rectangle2D.Double rect = new Rectangle2D.Double();
         
         public CollisionComponent(){}
         public CollisionComponent(boolean collidable, Rectangle2D.Double square){
             this.collidable = collidable;
-            this.square = square;
+            this.rect = square;
         }
     }
     
@@ -94,8 +94,8 @@ public class Components {
         public BufferedImage tex = AssetManager.getInstance().getBufferedImage("/sprites/placeholder.png");
         
         public ImageComponent(){}
-        public ImageComponent(BufferedImage tex){
-            this.tex = tex;
+        public ImageComponent(String path){
+            this.tex = AssetManager.getInstance().getBufferedImage(path);
         }
     }
 }

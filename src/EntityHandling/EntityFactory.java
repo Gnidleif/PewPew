@@ -17,21 +17,23 @@ public class EntityFactory {
         
     }
     
-    public Entity createSquare(){
+    public Entity createBall(){
         Entity e = new Entity(
                 new RenderComponent(true, 5),
                 new ColorComponent(Color.blue),
                 new PositionComponent(100.0, 100.0),
                 new DimensionComponent(50.0, 50.0, 1.0),
-                new CollisionComponent());
+                new CollisionComponent(), 
+                new ImageComponent("/sprites/circle.png"));
+        
         PositionComponent pos =  EntityManager.getInstance().getComponent(e.ID, PositionComponent.class);
         DimensionComponent dim = EntityManager.getInstance().getComponent(e.ID, DimensionComponent.class);
         CollisionComponent coll = EntityManager.getInstance().getComponent(e.ID, CollisionComponent.class);
 
-        coll.square.x = pos.x;
-        coll.square.y = pos.y;
-        coll.square.width = dim.width * dim.scale;
-        coll.square.height = dim.height * dim.scale;
+        coll.rect.x = pos.x;
+        coll.rect.y = pos.y;
+        coll.rect.width = dim.width * dim.scale;
+        coll.rect.height = dim.height * dim.scale;
         
         return e;
     }

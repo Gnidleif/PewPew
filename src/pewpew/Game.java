@@ -47,7 +47,7 @@ public class Game extends JPanel implements Runnable {
         mRunning = true;
         mPaused = false;
         mCamera = new Entity(new PositionComponent(0.0, 0.0), new VelocityComponent(0.0, 0.0));
-        mCS.createScreenBounds((double)SCR_WIDTH, (double)SCR_HEIGHT, 10);
+        mCS.createScreenBounds((double)SCR_WIDTH, (double)SCR_HEIGHT, 8);
     }
     
     @Override
@@ -102,7 +102,7 @@ public class Game extends JPanel implements Runnable {
         double lastUpdateTime = System.nanoTime();
         double lastRenderTime = System.nanoTime();
         
-        final double TARGET_FPS = 60;
+        final double TARGET_FPS = 120;
         final double TARGET_TIME_BETWEEN_RENDERS = ONE_BILLION / TARGET_FPS;
         
         while(mRunning){

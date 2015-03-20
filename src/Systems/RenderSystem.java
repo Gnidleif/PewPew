@@ -2,6 +2,9 @@ package Systems;
 
 import EntityHandling.Components.CollisionComponent;
 import EntityHandling.Components.ColorComponent;
+import EntityHandling.Components.DimensionComponent;
+import EntityHandling.Components.ImageComponent;
+import EntityHandling.Components.PositionComponent;
 import EntityHandling.Components.RenderComponent;
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -49,13 +52,35 @@ public class RenderSystem extends LogicSystem {
                 CollisionComponent coll = mEM.getComponent(e, CollisionComponent.class);
 
                 g.drawRect(
-                        (int) coll.square.x, 
-                        (int) coll.square.y, 
-                        (int) coll.square.width, 
-                        (int) coll.square.height);
+                        (int) coll.rect.x, 
+                        (int) coll.rect.y, 
+                        (int) coll.rect.width, 
+                        (int) coll.rect.height);
             }
             
             // TODO: Add code for rendering images
+            
+            if(mEM.hasComponent(e, ImageComponent.class) && mEM.hasComponent(e, PositionComponent.class)){
+                ImageComponent img = mEM.getComponent(e, ImageComponent.class);
+                PositionComponent pos = mEM.getComponent(e, PositionComponent.class);
+                DimensionComponent dims = new DimensionComponent();
+                
+                if(mEM.hasComponent(e, DimensionComponent.class)){
+                    dims = mEM.getComponent(e, DimensionComponent.class);
+                }
+                else{
+                    dims.height = img.tex.getHeight();
+                    dims.width = img.tex.getWidth();
+                }
+                
+                g.drawImage(
+                        img.tex, 
+                        (int)pos.x, 
+                        (int)pos.y, 
+                        (int)(dims.width * dims.scale),
+                        (int)(dims.height * dims.scale),
+                        null);
+            }
         }
     }
 }

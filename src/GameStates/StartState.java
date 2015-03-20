@@ -1,6 +1,7 @@
 package GameStates;
 
 import EntityHandling.Components.ColorComponent;
+import EntityHandling.Components.DimensionComponent;
 import EntityHandling.Components.PositionComponent;
 import EntityHandling.Components.VelocityComponent;
 import EntityHandling.Entity;
@@ -24,9 +25,9 @@ public class StartState extends BaseState {
     
     @Override
     public void initialize(){
-        mBalls.add(EntityFactory.getInstance().createSquare());
+        mBalls.add(EntityFactory.getInstance().createBall());
         mBalls.getLast().add(new VelocityComponent(1.0, 1.0));
-        mBalls.add(EntityFactory.getInstance().createSquare());
+        mBalls.add(EntityFactory.getInstance().createBall());
         mBalls.getLast().get(PositionComponent.class).x += 60.0;
         mBalls.getLast().get(PositionComponent.class).y += 60.0;
         mBalls.getLast().get(ColorComponent.class).color = Color.red;

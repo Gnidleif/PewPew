@@ -33,8 +33,8 @@ public class MoveSystem extends LogicSystem {
             // The part below will later be handled by events to optimize
             if(mEM.hasComponent(e, CollisionComponent.class)){
                 CollisionComponent coll = mEM.getComponent(e, CollisionComponent.class);
-                coll.square.x = pos.x;
-                coll.square.y = pos.y;
+                coll.rect.x = pos.x;
+                coll.rect.y = pos.y;
             }
             /* Move this to whatever system might handle the change in dimensions of an object
             if(mEM.hasComponent(e1, DimensionComponent.class)){
