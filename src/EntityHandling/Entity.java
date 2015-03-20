@@ -10,8 +10,7 @@ public class Entity {
     
     public Entity(){
         mEM = EntityManager.getInstance();
-        ID = mEM.createEntity();
-        System.out.println("New entity: " + ID);
+        ID = mEM.createEntity(); 
     }
     
     public Entity(Component... components){

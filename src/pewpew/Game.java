@@ -30,8 +30,6 @@ public class Game extends JPanel implements Runnable {
     private int mFPS = 60;
     private int mFrameCount = 0;
     
-    private Entity mFPSText = null;
-    
     // SubSystems
     private final CollisionSystem mCS = new CollisionSystem();
     private final MoveSystem mMS = new MoveSystem();
@@ -51,7 +49,7 @@ public class Game extends JPanel implements Runnable {
         StateMachine.getInstance().initialize();
         mRunning = true;
         mPaused = false;
-        mFPSText = EntityFactory.getInstance().createText();
+        mCS.createScreenBounds((double)SCR_WIDTH, (double)SCR_HEIGHT, 6);
     }
     
     @Override
@@ -102,7 +100,7 @@ public class Game extends JPanel implements Runnable {
         double lastUpdateTime = System.nanoTime();
         double lastRenderTime = System.nanoTime();
         
-        final double TARGET_FPS = 60;
+        final double TARGET_FPS = 120;
         final double TARGET_TIME_BETWEEN_RENDERS = ONE_BILLION / TARGET_FPS;
         
         int lastSecondTime = (int)(lastUpdateTime / ONE_BILLION);
@@ -131,7 +129,6 @@ public class Game extends JPanel implements Runnable {
                 if(thisSecond > lastSecondTime){
                     mFPS = mFrameCount;
                     String text = "FPS: " + mFPS;
-                    mFPSText.get(TextComponent.class).text = text;
                     mFrameCount = 0;
                     lastSecondTime = thisSecond;
                 }

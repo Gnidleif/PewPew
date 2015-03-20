@@ -1,17 +1,17 @@
 package GameStates;
 
+import EntityHandling.Components.ColorComponent;
+import EntityHandling.Components.ImageComponent;
 import EntityHandling.Components.PositionComponent;
-import EntityHandling.Components.RadiusComponent;
-import EntityHandling.Components.TextComponent;
+import EntityHandling.Components.VelocityComponent;
 import EntityHandling.Entity;
 import EntityHandling.EntityFactory;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.LinkedList;
-import pewpew.Game;
+import pewpew.AssetManager;
 
 public class StartState extends BaseState {
-    private Entity mText = null;
-    private Entity mBackground = null;
     private final LinkedList<Entity> mBalls;
     
     public StartState(){
@@ -21,33 +21,22 @@ public class StartState extends BaseState {
     
     @Override
     public void onEnter() {
-        mBackground = EntityFactory.getInstance().createBackground("/backgrounds/skyBG.png");
-        double xOffset = 0.0;
-        //double yOffset = 0.0;
-        for(int i = 0; i < 10; ++i){
-            mBalls.add(EntityFactory.getInstance().createBall());
-            xOffset = i * mBalls.getLast().get(RadiusComponent.class).radius * 2;
-            mBalls.getLast().get(PositionComponent.class).x += xOffset;
-        }
-        mText = EntityFactory.getInstance().createText();
-        mText.get(TextComponent.class).y += mText.get(TextComponent.class).font.getSize();
     }
     
     @Override
     public void initialize(){
-
+        mBalls.add(EntityFactory.getInstance().createBall());
+        mBalls.getLast().add(new VelocityComponent(5.0, 5.0));
+        mBalls.add(EntityFactory.getInstance().createBall());
+        mBalls.getLast().get(PositionComponent.class).x += 60.0;
+        mBalls.getLast().get(PositionComponent.class).y += 60.0;
+        mBalls.getLast().get(ColorComponent.class).color = Color.red;
+        mBalls.getLast().get(ImageComponent.class).tex = AssetManager.getInstance().getBufferedImage("/sprites/placeholder.png");
     }
 
     @Override
     public void update() {
-        int counter = 0;
-        for(Entity e : mBalls){
-            PositionComponent pos = e.get(PositionComponent.class);
-            if(pos.x > 0.0 && pos.x < (double)Game.SCR_WIDTH && pos.y > 0.0 && pos.y < (double)Game.SCR_HEIGHT){
-                counter++;
-            }
-        }
-        mText.get(TextComponent.class).text = "Balls left: " + counter;
+        
     }
 
     @Override
@@ -57,8 +46,6 @@ public class StartState extends BaseState {
 
     @Override
     public void onExit() {
-        mText.kill();
-        mBackground.kill();
         for(Entity e : mBalls){
             e.kill();
         }

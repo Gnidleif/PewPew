@@ -1,10 +1,10 @@
 package Systems;
 
+import EntityHandling.Components.CollisionComponent;
 import EntityHandling.Components.ColorComponent;
 import EntityHandling.Components.DimensionComponent;
 import EntityHandling.Components.ImageComponent;
 import EntityHandling.Components.PositionComponent;
-import EntityHandling.Components.RadiusComponent;
 import EntityHandling.Components.RenderComponent;
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -38,47 +38,48 @@ public class RenderSystem extends LogicSystem {
     public void draw(Graphics g) {
         ArrayList<UUID> entities = getSorted(mEM.getAllEntitiesOwningType(RenderComponent.class));
         for(UUID e : entities){
-            RenderComponent render = mEM.getComponent(e, RenderComponent.class);
-            if(!render.visible){
+            if(!mEM.getComponent(e, RenderComponent.class).visible){
                 continue;
             }
-            if(mEM.hasComponent(e, PositionComponent.class)){
-                PositionComponent pos = mEM.getComponent(e, PositionComponent.class);
+            
+            if(mEM.hasComponent(e, ColorComponent.class)){
+                ColorComponent color = mEM.getComponent(e, ColorComponent.class);
+                g.setColor(mEM.getComponent(e, ColorComponent.class).color);
+            }
 
-                if(mEM.hasComponent(e, ColorComponent.class) && mEM.hasComponent(e, RadiusComponent.class)){ // YOU CAN ONLY DRAW COLORED CIRCLES OKAY!?
-                    ColorComponent color = mEM.getComponent(e, ColorComponent.class);
-                    RadiusComponent rad = mEM.getComponent(e, RadiusComponent.class);
-                    
-                    int diameter = (int)(rad.radius * 2);
-                    g.setColor(color.color);
-                    g.fillOval(
-                            (int)(pos.x - rad.radius), 
-                            (int)(pos.y - rad.radius),
-                            diameter,
-                            diameter);
+            // Only used for debugging collisionsquares
+            if(mEM.hasComponent(e, CollisionComponent.class)){
+                CollisionComponent coll = mEM.getComponent(e, CollisionComponent.class);
+
+                g.drawRect(
+                        (int) coll.rect.x, 
+                        (int) coll.rect.y, 
+                        (int) coll.rect.width, 
+                        (int) coll.rect.height);
+            }
+            
+            // TODO: Add code for rendering images
+            
+            if(mEM.hasComponent(e, ImageComponent.class) && mEM.hasComponent(e, PositionComponent.class)){
+                ImageComponent img = mEM.getComponent(e, ImageComponent.class);
+                PositionComponent pos = mEM.getComponent(e, PositionComponent.class);
+                DimensionComponent dims = new DimensionComponent();
+                
+                if(mEM.hasComponent(e, DimensionComponent.class)){
+                    dims = mEM.getComponent(e, DimensionComponent.class);
+                }
+                else{
+                    dims.height = img.tex.getHeight();
+                    dims.width = img.tex.getWidth();
                 }
                 
-                DimensionComponent dim = new DimensionComponent();
-                if(mEM.hasComponent(e, DimensionComponent.class)){
-                    dim = mEM.getComponent(e, DimensionComponent.class);
-                }      
-                if(mEM.hasComponent(e, ImageComponent.class)){
-                    ImageComponent img = mEM.getComponent(e, ImageComponent.class);
-                    
-                    if(dim.width == 0.0 && dim.height == 0.0){ // If this component doesn't have a DimensionComponent, take the dims from the image
-                        dim.width = img.tex.getWidth();
-                        dim.height = img.tex.getHeight();
-                    }
-                    int scaledWidth = (int)(dim.width * dim.scale);
-                    int scaledHeight = (int)(dim.height * dim.scale);
-                    g.drawImage(
-                            img.tex, 
-                            (int)pos.x - scaledWidth/2,
-                            (int)pos.y - scaledHeight/2, 
-                            (int)(dim.width * dim.scale), 
-                            (int)(dim.height * dim.scale), 
-                            null);
-                }   
+                g.drawImage(
+                        img.tex, 
+                        (int)pos.x, 
+                        (int)pos.y, 
+                        (int)(dims.width * dims.scale),
+                        (int)(dims.height * dims.scale),
+                        null);
             }
         }
     }
