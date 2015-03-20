@@ -17,7 +17,9 @@ public class CollisionSystem extends LogicSystem {
         public LinkedList<UUID> entities = new LinkedList<>();
         
         public Bound(){
-            drawBounds = new Entity(new RenderComponent(true, 10), new CollisionComponent(false, new Rectangle2D.Double()));
+            drawBounds = new Entity(
+                    new RenderComponent(true, 10), // the render component here is only required for debugging
+                    new CollisionComponent(false, new Rectangle2D.Double()));
         }
     }
     
@@ -43,7 +45,7 @@ public class CollisionSystem extends LogicSystem {
         for(UUID e : entities){
             temp.add(e);
         }
-        int counter = 0;
+        
         for(int i = 0; i < mBounds.size(); i++){
             CollisionComponent bound = mBounds.get(i).drawBounds.get(CollisionComponent.class);
             for(int k = 0; k < temp.size(); k++){
@@ -53,17 +55,9 @@ public class CollisionSystem extends LogicSystem {
                 
                 if(bound.square.intersects(coll.square)){
                     mBounds.get(i).entities.add(temp.get(k));
-                    counter++;   
                 }
             }
         }
-        System.out.println(counter);
-    }
-    
-    private double calcLength(PositionComponent p1, PositionComponent p2){
-        double xDist = p2.x - p1.x;
-        double yDist = p2.y - p1.y;
-        return Math.sqrt(xDist*xDist + yDist*yDist);
     }
     
     public void update() {

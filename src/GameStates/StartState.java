@@ -17,12 +17,6 @@ public class StartState extends BaseState {
     
     @Override
     public void onEnter() {
-        mBackground = EntityFactory.getInstance().createBackground("/backgrounds/skyBG.png");
-        double xOffset = 0.0;
-        //double yOffset = 0.0;
-        for(int i = 0; i < 1; ++i){
-            mBalls.add(EntityFactory.getInstance().createStaticBall());
-        }
     }
     
     @Override
