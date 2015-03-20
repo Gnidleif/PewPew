@@ -89,7 +89,7 @@ public class Components {
         }
     }
     
-    // If an object needs a texture to be drawn on it, this is required
+    // If an object needs a texture to be drawn on it, this component is required
     public static class ImageComponent extends Component{
         public BufferedImage tex = AssetManager.getInstance().getBufferedImage("/sprites/placeholder.png");
         

@@ -1,20 +1,15 @@
 package pewpew;
 
-import EntityHandling.Components.CollisionComponent;
-import EntityHandling.Components.ColorComponent;
 import EntityHandling.Components.PositionComponent;
-import EntityHandling.Components.RenderComponent;
 import EntityHandling.Components.VelocityComponent;
 import EntityHandling.Entity;
 import GameStates.StateMachine;
 import Systems.CollisionSystem;
 import Systems.MoveSystem;
 import Systems.RenderSystem;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.swing.JPanel;

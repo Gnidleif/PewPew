@@ -2,11 +2,7 @@ package Systems;
 
 import EntityHandling.Components.CollisionComponent;
 import EntityHandling.Components.ColorComponent;
-import EntityHandling.Components.DimensionComponent;
-import EntityHandling.Components.ImageComponent;
-import EntityHandling.Components.PositionComponent;
 import EntityHandling.Components.RenderComponent;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,8 +35,7 @@ public class RenderSystem extends LogicSystem {
     public void draw(Graphics g) {
         ArrayList<UUID> entities = getSorted(mEM.getAllEntitiesOwningType(RenderComponent.class));
         for(UUID e : entities){
-            RenderComponent render = mEM.getComponent(e, RenderComponent.class);
-            if(!render.visible){
+            if(!mEM.getComponent(e, RenderComponent.class).visible){
                 continue;
             }
             
@@ -49,6 +44,7 @@ public class RenderSystem extends LogicSystem {
                 g.setColor(mEM.getComponent(e, ColorComponent.class).color);
             }
 
+            // Only used for debugging collisionsquares
             if(mEM.hasComponent(e, CollisionComponent.class)){
                 CollisionComponent coll = mEM.getComponent(e, CollisionComponent.class);
 
@@ -59,31 +55,7 @@ public class RenderSystem extends LogicSystem {
                         (int) coll.square.height);
             }
             
-            if(mEM.hasComponent(e, PositionComponent.class)){
-                PositionComponent pos = mEM.getComponent(e, PositionComponent.class);
-                
-                DimensionComponent dim = new DimensionComponent();
-                if(mEM.hasComponent(e, DimensionComponent.class)){
-                    dim = mEM.getComponent(e, DimensionComponent.class);
-                }      
-                if(mEM.hasComponent(e, ImageComponent.class)){
-                    ImageComponent img = mEM.getComponent(e, ImageComponent.class);
-                    
-                    if(dim.width == 0.0 && dim.height == 0.0){ // If this component doesn't have a DimensionComponent, take the dims from the image
-                        dim.width = img.tex.getWidth();
-                        dim.height = img.tex.getHeight();
-                    }
-                    int scaledWidth = (int)(dim.width * dim.scale);
-                    int scaledHeight = (int)(dim.height * dim.scale);
-                    g.drawImage(
-                            img.tex, 
-                            (int)pos.x - scaledWidth/2,
-                            (int)pos.y - scaledHeight/2, 
-                            (int)(dim.width * dim.scale), 
-                            (int)(dim.height * dim.scale), 
-                            null);
-                }   
-            }
+            // TODO: Add code for rendering images
         }
     }
 }
