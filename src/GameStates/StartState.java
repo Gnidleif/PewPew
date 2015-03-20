@@ -1,7 +1,6 @@
 package GameStates;
 
 import EntityHandling.Components.ColorComponent;
-import EntityHandling.Components.DimensionComponent;
 import EntityHandling.Components.ImageComponent;
 import EntityHandling.Components.PositionComponent;
 import EntityHandling.Components.VelocityComponent;
@@ -22,7 +21,6 @@ public class StartState extends BaseState {
     
     @Override
     public void onEnter() {
-        
     }
     
     @Override
@@ -37,7 +35,8 @@ public class StartState extends BaseState {
     }
 
     @Override
-    public void update(double dt) {
+    public void update() {
+        
     }
 
     @Override

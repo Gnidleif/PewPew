@@ -2,6 +2,7 @@ package EntityHandling;
 
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
+import java.awt.Font;
 import java.awt.image.BufferedImage;
 import pewpew.AssetManager;
 
@@ -96,6 +97,22 @@ public class Components {
         public ImageComponent(){}
         public ImageComponent(String path){
             this.tex = AssetManager.getInstance().getBufferedImage(path);
+        }
+    }
+    
+    public static class TextComponent extends Component{
+        public String text = "";
+        public int x = 0, y = 0;
+        public Color color = Color.black;
+        public Font font = new Font("Dialog", Font.PLAIN, 12);
+        
+        public TextComponent(){}
+        public TextComponent(String text, int x, int y, Color color, Font font){
+            this.text = text;
+            this.x = x;
+            this.y = y;
+            this.color = color;
+            this.font = font;
         }
     }
 }

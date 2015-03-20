@@ -2,6 +2,7 @@ package EntityHandling;
 
 import EntityHandling.Components.*;
 import java.awt.Color;
+import java.awt.Font;
 
 public class EntityFactory {
     
@@ -39,6 +40,16 @@ public class EntityFactory {
         coll.rect.y = pos.y;
         coll.rect.width = dim.width * dim.scale;
         coll.rect.height = dim.height * dim.scale;
+        
+        return e;
+    }
+    
+    public Entity createText(){
+        Entity e = new Entity(new TextComponent());
+        e.get(TextComponent.class).color = Color.blue;
+        e.get(TextComponent.class).x = 10;
+        e.get(TextComponent.class).y = 10;
+        e.get(TextComponent.class).font = new Font("Comic Sans MS", Font.BOLD, 30);
         
         return e;
     }
