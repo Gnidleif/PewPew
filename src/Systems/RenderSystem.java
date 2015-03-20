@@ -48,9 +48,6 @@ public class RenderSystem extends LogicSystem {
                 ColorComponent color = mEM.getComponent(e, ColorComponent.class);
                 g.setColor(mEM.getComponent(e, ColorComponent.class).color);
             }
-            else{
-                g.setColor(Color.red);
-            }
 
             if(mEM.hasComponent(e, CollisionComponent.class)){
                 CollisionComponent coll = mEM.getComponent(e, CollisionComponent.class);

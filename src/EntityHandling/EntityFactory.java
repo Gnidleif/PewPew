@@ -19,4 +19,16 @@ public class EntityFactory {
     private EntityFactory(){
         
     }
+    
+    public Entity createSquare(){
+        Entity e = new Entity(
+                new RenderComponent(true, 5),
+                new ColorComponent(Color.black),
+                new VelocityComponent(1.0, 1.0),
+                new PositionComponent(100.0, 100.0),
+                new DimensionComponent(50.0, 50.0, 1.0),
+                new CollisionComponent(true, new Rectangle2D.Double(100.0, 100.0, 50.0, 50.0)));
+        
+        return e;
+    }
 }

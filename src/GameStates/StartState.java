@@ -1,13 +1,14 @@
 package GameStates;
 
 import EntityHandling.Components.PositionComponent;
+import EntityHandling.Components.VelocityComponent;
 import EntityHandling.Entity;
 import EntityHandling.EntityFactory;
+import EntityHandling.EntityManager;
 import java.awt.Graphics;
 import java.util.LinkedList;
 
 public class StartState extends BaseState {
-    private Entity mBackground = null;
     private final LinkedList<Entity> mBalls;
     
     public StartState(){
@@ -17,11 +18,18 @@ public class StartState extends BaseState {
     
     @Override
     public void onEnter() {
+        
     }
     
     @Override
     public void initialize(){
-
+        mBalls.add(EntityFactory.getInstance().createSquare());
+        mBalls.add(EntityFactory.getInstance().createSquare());
+        mBalls.getLast().get(PositionComponent.class).x += 240.0;
+        mBalls.getLast().get(PositionComponent.class).y += 240.0;
+        mBalls.getLast().remove(VelocityComponent.class);
+        //mBalls.getLast().get(VelocityComponent.class).x *= -1.0;
+        //mBalls.getLast().get(VelocityComponent.class).y *= -1.0;
     }
 
     @Override

@@ -6,12 +6,14 @@ import EntityHandling.Components.PositionComponent;
 import EntityHandling.Components.RenderComponent;
 import EntityHandling.Components.VelocityComponent;
 import EntityHandling.Entity;
+import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 import java.util.LinkedList;
 import java.util.Set;
 import java.util.UUID;
 
 public class CollisionSystem extends LogicSystem {
+    // Class used to define a rectangular field for comparison of collisions between objects
     private class Bound {
         public Entity drawBounds;
         public LinkedList<UUID> entities = new LinkedList<>();
@@ -19,6 +21,7 @@ public class CollisionSystem extends LogicSystem {
         public Bound(){
             drawBounds = new Entity(
                     new RenderComponent(true, 10), // the render component here is only required for debugging
+                    new ColorComponent(Color.red),
                     new CollisionComponent(false, new Rectangle2D.Double()));
         }
     }
@@ -30,61 +33,61 @@ public class CollisionSystem extends LogicSystem {
         for(int i = 0; i < splits; i++){
             mBounds.add(new Bound());
             CollisionComponent coll = mBounds.get(i).drawBounds.get(CollisionComponent.class);
-            double lowY = offsetY * i;
-            double maxY = offsetY * (i + 1);
+            double top = offsetY * i;
             coll.square.x = 0;
-            coll.square.y = lowY;
+            coll.square.y = top;
             coll.square.width = x;      
             coll.square.height = offsetY;
-            System.out.println(coll.square.toString());
         }
     }
     
-    private void addEntitiesToBounds(Set<UUID> entities){
-        LinkedList<UUID> temp = new LinkedList<>();
-        for(UUID e : entities){
-            temp.add(e);
-        }
-        
-        for(int i = 0; i < mBounds.size(); i++){
-            CollisionComponent bound = mBounds.get(i).drawBounds.get(CollisionComponent.class);
-            for(int k = 0; k < temp.size(); k++){
-                CollisionComponent coll = mEM.getComponent(temp.get(k), CollisionComponent.class);
-                if(!mEM.hasComponent(temp.get(k), ColorComponent.class) || !coll.collidable)
-                    continue;
+    private void addEntitiesToBounds(Set<UUID> entities){        
+        for(Bound bound : mBounds){
+            CollisionComponent bColl = bound.drawBounds.get(CollisionComponent.class);
+            
+            for(UUID e : entities){
+                CollisionComponent eColl = mEM.getComponent(e, CollisionComponent.class);
                 
-                if(bound.square.intersects(coll.square)){
-                    mBounds.get(i).entities.add(temp.get(k));
+                if(!eColl.collidable){ // unnecessary to check for collisions on objects that can't collide
+                    continue;
+                }
+                
+                if(bColl.square.intersects(eColl.square)){
+                    bound.entities.add(e);
                 }
             }
         }
     }
+    
+    private static int counter = 0;
     
     public void update() {
         Set<UUID> entities = mEM.getAllEntitiesOwningType(CollisionComponent.class);
         addEntitiesToBounds(entities);
         
-        for(UUID e1 : entities){
-            if(!mEM.getComponent(e1, CollisionComponent.class).collidable){
+        for(Bound bound : mBounds){
+            if(bound.entities.size() <= 1){ // No need to check for collisions if there's only one or zero entities in the box
                 continue;
             }
-            if(mEM.hasComponent(e1, PositionComponent.class) && mEM.hasComponent(e1, CollisionComponent.class) && mEM.hasComponent(e1, VelocityComponent.class)){
-                PositionComponent pos1 = mEM.getComponent(e1, PositionComponent.class);
+            
+            for(UUID e1 : bound.entities){
                 CollisionComponent coll1 = mEM.getComponent(e1, CollisionComponent.class);
-                VelocityComponent vel = mEM.getComponent(e1, VelocityComponent.class);
                 
-                for(UUID e2 : entities){
-                    if(e1 == e2 || !mEM.getComponent(e2, CollisionComponent.class).collidable){
+                for(UUID e2 : bound.entities){
+                    if(e1 == e2){
                         continue;
                     }
+                    
                     CollisionComponent coll2 = mEM.getComponent(e2, CollisionComponent.class);
-                    if(mEM.hasComponent(e2, PositionComponent.class)){
-                        PositionComponent pos2 = mEM.getComponent(e2, PositionComponent.class);
-                        
-                        
+                    
+                    if(coll1.square.intersects(coll2.square)){
+                        System.out.println("Hit! " + counter);
+                        counter++;
                     }
                 }
             }
+            
+            bound.entities.clear(); // Clear the list before the next update-call
         }
     }
 }
