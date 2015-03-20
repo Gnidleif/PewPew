@@ -73,9 +73,9 @@ public class Components {
         public Rectangle2D.Double rect = new Rectangle2D.Double();
         
         public CollisionComponent(){}
-        public CollisionComponent(boolean collidable, Rectangle2D.Double square){
+        public CollisionComponent(boolean collidable, Rectangle2D.Double rect){
             this.collidable = collidable;
-            this.rect = square;
+            this.rect = rect;
         }
     }
     

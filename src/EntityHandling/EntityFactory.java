@@ -23,13 +23,18 @@ public class EntityFactory {
                 new ColorComponent(Color.blue),
                 new PositionComponent(100.0, 100.0),
                 new DimensionComponent(50.0, 50.0, 1.0),
+                new AccelerationComponent(),
                 new CollisionComponent(), 
                 new ImageComponent("/sprites/circle.png"));
         
         PositionComponent pos =  EntityManager.getInstance().getComponent(e.ID, PositionComponent.class);
         DimensionComponent dim = EntityManager.getInstance().getComponent(e.ID, DimensionComponent.class);
         CollisionComponent coll = EntityManager.getInstance().getComponent(e.ID, CollisionComponent.class);
-
+        ImageComponent img = EntityManager.getInstance().getComponent(e.ID, ImageComponent.class);
+        
+        dim.width = img.tex.getWidth();
+        dim.height = img.tex.getHeight();
+        
         coll.rect.x = pos.x;
         coll.rect.y = pos.y;
         coll.rect.width = dim.width * dim.scale;

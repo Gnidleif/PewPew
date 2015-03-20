@@ -1,5 +1,6 @@
 package Systems;
 
+import EntityHandling.Components.AccelerationComponent;
 import EntityHandling.Components.CollisionComponent;
 import EntityHandling.Components.ColorComponent;
 import EntityHandling.Components.ImageComponent;
@@ -150,10 +151,10 @@ public class CollisionSystem extends LogicSystem {
             for(UUID e1 : bound.entities){
                 CollisionComponent coll1 = mEM.getComponent(e1, CollisionComponent.class);
                 
-                if(!mEM.hasComponent(e1, VelocityComponent.class)){ // Skip if there's no VelocityComponent to change
+                if(!mEM.hasComponent(e1, AccelerationComponent.class)){ // Skip if there's no VelocityComponent to change
                     continue;
                 }
-                VelocityComponent vel = mEM.getComponent(e1, VelocityComponent.class);
+                AccelerationComponent acc = mEM.getComponent(e1, AccelerationComponent.class);
                 
                 for(UUID e2 : bound.entities){
                     if(e1 == e2){ // No need to check collision on yourself
@@ -163,10 +164,7 @@ public class CollisionSystem extends LogicSystem {
                     
                     if(this.isColliding(e1, e2)){
                         System.out.println("Hit! " + counter);
-                        vel.x *= -1.0;
-                        vel.y *= -1.0;
                         counter++;
-                        break;
                     }
                 }
             }
